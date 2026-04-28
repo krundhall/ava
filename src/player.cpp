@@ -1,4 +1,5 @@
 #include "player.h"
+#include "constants.h"
 #include <math.h>
 #include <raylib.h>
 #include <raymath.h>
@@ -32,6 +33,23 @@ void player_update(Player* player, float dt)
         player->position.x += rx * player->speed * dt;
         player->position.z += rz * player->speed * dt;
     }
+
+    if (IsKeyPressed(KEY_SPACE) && player->jumps_remaining > 0)
+    {
+        player->velocity_y =
+            (player->jumps_remaining == 1) ? player->double_jump_force : player->jump_force;
+        player->jumps_remaining--;
+    }
+
+    player->velocity_y -= GRAVITY * dt;
+    player->position.y += player->velocity_y * dt;
+
+    if (player->position.y <= 0.0f)
+    {
+        player->position.y = 0.0f;
+        player->velocity_y = 0.0f;
+        player->jumps_remaining = 2;
+    }
 }
 
 void player_draw(const Player* player)
@@ -39,15 +57,11 @@ void player_draw(const Player* player)
     DrawCube(player->position, 2.0f, 2.0f, 2.0f, RED);
 
     float rad = player->facing * DEG2RAD;
-    Vector3 cone_base = {
-        player->position.x - sinf(rad) * 1.0f,
-        player->position.y,
-        player->position.z - cosf(rad) * 1.0f
-    };
-    Vector3 cone_tip = {
-        player->position.x - sinf(rad) * 2.5f,
-        player->position.y,
-        player->position.z - cosf(rad) * 2.5f
-    };
+    Vector3 cone_base = {player->position.x - sinf(rad) * 1.0f,
+                         player->position.y,
+                         player->position.z - cosf(rad) * 1.0f};
+    Vector3 cone_tip = {player->position.x - sinf(rad) * 2.5f,
+                        player->position.y,
+                        player->position.z - cosf(rad) * 2.5f};
     DrawCylinderEx(cone_base, cone_tip, 0.5f, 0.0f, 8, BLUE);
 }
