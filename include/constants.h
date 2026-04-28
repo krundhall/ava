@@ -1,4 +1,4 @@
 #pragma once
 
-constexpr int SCREEN_WIDTH = 1600;
-constexpr int SCREEN_HEIGHT = 800;
+constexpr unsigned int SCREEN_WIDTH = 1600;
+constexpr unsigned int SCREEN_HEIGHT = 800;
