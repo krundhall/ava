@@ -1,13 +1,16 @@
 #include "rendering.h"
 
-void draw(const GameCamera* camera, const Player* player)
+void draw(const GameCamera* camera, const Player* player, const Box* platform)
 {
     BeginDrawing();
     ClearBackground(GRAY);
 
     BeginMode3D(camera->cam3d);
     player_draw(player);
-    DrawCubeWires(player->position, 2.0f, 2.0f, 2.0f, MAROON);
+
+    DrawCube(platform->position, platform->size.x, platform->size.y, platform->size.z, BLUE);
+    DrawCubeWires(platform->position, platform->size.x, platform->size.y, platform->size.z, BLACK);
+
     DrawGrid(10, 1.0f);
     EndMode3D();
 

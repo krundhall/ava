@@ -48,13 +48,14 @@ void player_update(Player* player, float dt)
     {
         player->position.y = 0.0f;
         player->velocity_y = 0.0f;
-        player->jumps_remaining = 2;
+        player->jumps_remaining = MAX_YUMP;
     }
 }
 
 void player_draw(const Player* player)
 {
-    DrawCube(player->position, 2.0f, 2.0f, 2.0f, RED);
+    DrawCube(player->position, 2.0f, 2.0f, 2.0f, GREEN);
+    DrawCubeWires(player->position, 2.0f, 2.0f, 2.0f, WHITE);
 
     float rad = player->facing * DEG2RAD;
     Vector3 cone_base = {player->position.x - sinf(rad) * 1.0f,
@@ -63,5 +64,5 @@ void player_draw(const Player* player)
     Vector3 cone_tip = {player->position.x - sinf(rad) * 2.5f,
                         player->position.y,
                         player->position.z - cosf(rad) * 2.5f};
-    DrawCylinderEx(cone_base, cone_tip, 0.5f, 0.0f, 8, BLUE);
+    DrawCylinderEx(cone_base, cone_tip, 0.5f, 0.0f, 8, RED);
 }
