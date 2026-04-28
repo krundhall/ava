@@ -12,27 +12,33 @@ void player_update(Player* player, float dt)
     float rx = cosf(rad);
     float rz = -sinf(rad);
 
+    Vector3 move = {0.0f, 0.0f, 0.0f};
     if (IsKeyDown(KEY_W))
     {
-        player->position.x += fx * player->speed * dt;
-        player->position.z += fz * player->speed * dt;
+        move.x += fx;
+        move.z += fz;
     }
     if (IsKeyDown(KEY_S))
     {
-        player->position.x -= fx * player->speed * dt;
-        player->position.z -= fz * player->speed * dt;
+        move.x -= fx;
+        move.z -= fz;
     }
-
     if (IsKeyDown(KEY_A))
     {
-        player->position.x -= rx * player->speed * dt;
-        player->position.z -= rz * player->speed * dt;
+        move.x -= rx;
+        move.z -= rz;
     }
     if (IsKeyDown(KEY_D))
     {
-        player->position.x += rx * player->speed * dt;
-        player->position.z += rz * player->speed * dt;
+        move.x += rx;
+        move.z += rz;
     }
+
+    if (Vector3Length(move) > 0)
+        move = Vector3Normalize(move);
+
+    player->position.x += move.x * player->speed * dt;
+    player->position.z += move.z * player->speed * dt;
 
     if (IsKeyPressed(KEY_SPACE) && player->jumps_remaining > 0)
     {
