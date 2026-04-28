@@ -5,7 +5,9 @@ struct Player
 {
     Vector3 position = {0.0f, 0.0f, 0.0f};
     float speed = 15.0f;
+    float facing = 0.0f;
 };
 
 
-void player_update(Player* player, float dt);
+void player_update(Player *player, float dt);
+void player_draw(const Player *player);

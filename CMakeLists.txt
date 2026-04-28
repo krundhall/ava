@@ -18,5 +18,6 @@ file(GLOB_RECURSE SOURCES src/*.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${raylib_SOURCE_DIR}/src)
 target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)

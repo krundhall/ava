@@ -1,3 +1,4 @@
+#include "camera.h"
 #include "constants.h"
 #include "player.h"
 #include <raylib.h>
@@ -9,31 +10,23 @@ int main()
     SetTargetFPS(120);
 
     Player player;
-
-    Camera3D camera = {
-        {player.position.x, player.position.y + 10.0f, player.position.z + 10.0f}, // position
-        {player.position},                                                         // target
-        {0.0f, 1.0f, 0.0f},                                                        // up
-        45.0f,                                                                     // fovy
-        CAMERA_PERSPECTIVE                                                         // projection
-    };
+    GameCamera camera = camera_create(player.position, 45.0f, 10.0f);
 
 
     while (!WindowShouldClose())
     {
         float dt = GetFrameTime();
-
         // Update
 
-        camera.position = {player.position.x, player.position.y + 10.0f, player.position.z + 10.0f};
-        camera.target = player.position;
+        camera_update(&camera, player.position, &player.facing);
+        player_update(&player, dt);
 
         // Draw
         BeginDrawing();
         ClearBackground(GRAY);
 
-        BeginMode3D(camera);
-        DrawCube(player.position, 2.0f, 2.0f, 2.0f, RED);
+        BeginMode3D(camera.cam3d);
+        player_draw(&player);
         DrawCubeWires(player.position, 2.0f, 2.0f, 2.0f, MAROON);
         DrawGrid(10, 1.0f);
         EndMode3D();
