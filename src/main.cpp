@@ -7,7 +7,7 @@
 #include <raylib.h>
 
 void check_collision(Player* player, const Box* platform);
-
+// hello chat
 int main()
 {
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
