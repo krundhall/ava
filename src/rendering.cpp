@@ -1,17 +1,21 @@
 #include "rendering.h"
-
-void draw(const GameCamera* camera, const Player* player, const Box* platform)
+void draw(const GameCamera* camera, const Player* player, const std::vector<Box> &platforms,
+          const Ball &ball)
 {
     BeginDrawing();
     ClearBackground(GRAY);
 
     BeginMode3D(camera->cam3d);
     player_draw(player);
+    ball_draw(&ball);
+    for (const auto &platform : platforms)
+    {
+        DrawCube(
+            platform.position, platform.size.x, platform.size.y, platform.size.z, platform.color);
+        DrawCubeWires(platform.position, platform.size.x, platform.size.y, platform.size.z, BLACK);
+    }
 
-    DrawCube(platform->position, platform->size.x, platform->size.y, platform->size.z, BLUE);
-    DrawCubeWires(platform->position, platform->size.x, platform->size.y, platform->size.z, BLACK);
-
-    DrawGrid(10, 1.0f);
+    DrawGrid(50, 1.0f);
     EndMode3D();
 
     DrawText("Ava", 10, 40, 20, DARKGRAY);

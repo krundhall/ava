@@ -6,6 +6,7 @@
 
 void player_update(Player* player, float dt)
 {
+    /* Build the move vector*/
     float rad = player->facing * DEG2RAD;
     float fx = -sinf(rad);
     float fz = -cosf(rad);
@@ -37,26 +38,43 @@ void player_update(Player* player, float dt)
     if (Vector3Length(move) > 0)
         move = Vector3Normalize(move);
 
-    player->position.x += move.x * player->speed * dt;
-    player->position.z += move.z * player->speed * dt;
+    /* Horizontal Physics */
+    player->velocity_x += move.x * player->speed * dt;
+    player->velocity_z += move.z * player->speed * dt;
+    player->position.x += player->velocity_x * dt;
+    player->position.z += player->velocity_z * dt;
 
-    if (IsKeyPressed(KEY_SPACE) && player->jumps_remaining > 0)
+
+    /* Jump Logic */
+    if (IsKeyPressed(KEY_SPACE))
+        player->jump_buffer_timer = 0.25f;
+
+    if (player->jump_buffer_timer > 0 && player->jumps_remaining > 0)
     {
         player->velocity_y =
             (player->jumps_remaining == 1) ? player->double_jump_force : player->jump_force;
         player->jumps_remaining--;
+        player->jump_buffer_timer = 0.0f;
     }
+    if (IsKeyReleased(KEY_SPACE) && player->velocity_y > 0)
+        player->velocity_y *= EARLY_JUMP_CUT;
 
+    /* Gravity and friction forces */
     player->velocity_y -= GRAVITY * dt;
+    player->velocity_x *= FRICTION;
+    player->velocity_z *= FRICTION;
     player->position.y += player->velocity_y * dt;
+    player->jump_buffer_timer -= dt;
 
+    /* Ground check */
     if (player->position.y <= 0.0f)
     {
         player->position.y = 0.0f;
         player->velocity_y = 0.0f;
-        player->jumps_remaining = MAX_YUMP;
+        player->jumps_remaining = MAX_JUMP;
     }
 }
+
 
 void player_draw(const Player* player)
 {
