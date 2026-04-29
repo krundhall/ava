@@ -10,5 +10,5 @@ constexpr float CAMERA_DISTANCE = 50.0f;
 
 constexpr int MAX_JUMP = 10;
 constexpr float EARLY_JUMP_CUT = 0.65f;
-constexpr float KICK_FORCE = 2.0f;
-constexpr float LOB_FORCE = 1.0f;
+constexpr float KICK_FORCE = 2.5f;
+constexpr float LOB_FORCE = 1.5f;

@@ -22,4 +22,6 @@ void ball_draw(const Ball* ball)
 {
     DrawSphere(ball->position, ball->radius, RAYWHITE);
     DrawSphereWires(ball->position, ball->radius, 1, 1, BLACK);
+    DrawCircle3D(
+        {ball->position.x, 0.1f, ball->position.z}, ball->radius * 0.5f, {1, 0, 0}, 90.0f, BLACK);
 }

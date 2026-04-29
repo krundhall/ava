@@ -89,4 +89,10 @@ void player_draw(const Player* player)
                         player->position.y,
                         player->position.z - cosf(rad) * 2.5f};
     DrawCylinderEx(cone_base, cone_tip, 0.5f, 0.0f, 8, RED);
+
+    DrawCircle3D({player->position.x, 0.1f, player->position.z},
+                 2.0f,
+                 {1, 0, 0},
+                 90.0f,
+                 BLACK);
 }

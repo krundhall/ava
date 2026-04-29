@@ -3,7 +3,7 @@ void draw(const GameCamera* camera, const Player* player, const std::vector<Box>
           const Ball &ball)
 {
     BeginDrawing();
-    ClearBackground(GRAY);
+    ClearBackground({135, 206, 235, 255});
 
     BeginMode3D(camera->cam3d);
     player_draw(player);
