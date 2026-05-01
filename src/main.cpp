@@ -1,23 +1,33 @@
 #include "constants.h"
+#include "GameWorld.h"
+#include "PlayingScene.h"
 #include <raylib.h>
-// hello chat
+#include "MenuScene.h"
+#include <memory>
+
 int main()
 {
     SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_WINDOW_HIGHDPI);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Ava");
-    Vector2 monitor_pos = GetMonitorPosition(0);
-    SetWindowPosition((int)monitor_pos.x + (GetMonitorWidth(0) - SCREEN_WIDTH) / 2,
-                      (int)monitor_pos.y + (GetMonitorHeight(0) - SCREEN_HEIGHT) / 2);
+    SetExitKey(KEY_NULL);
     SetTargetFPS(120);
+
+    GameWorld world;
+    std::unique_ptr<Scene> scene = std::make_unique<MenuScene>(world);
 
     while (!WindowShouldClose())
     {
-        // Update
-        BeginDrawing();
-        ClearBackground(GRAY);
+        float dt = GetFrameTime();
 
+        auto next = scene->update(dt);
+        if (next) scene = std::move(next);
+
+        BeginDrawing();
+            ClearBackground(GRAY);
+            scene->draw();
         EndDrawing();
     }
+
     CloseWindow();
     return 0;
 }
