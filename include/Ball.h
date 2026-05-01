@@ -1,20 +1,14 @@
 #pragma once
 #include <raylib.h>
 
-enum class PlayerSide { LEFT, RIGHT };
-
-class Player
+class Ball
 {
 private:
-    float speed;
-    Color color;
-    PlayerSide side;
     Vector2 position;
+    Vector2 velocity;
     float radius;
-
+    Color color;
 public:
-    Player(PlayerSide side);
     void update(float dt);
     void draw();
-
 };
